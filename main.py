@@ -39,8 +39,8 @@ def main():
     client = MongoClient(
         "mongodb+srv://thomas:thomas123@cluster0-0kckv.mongodb.net/test?retryWrites=true&w=majority")
 
-    tweets = client['twitter']['scrapedTweets']
-    todoCol = client['twitter']['usersToScrape1YearV2']
+    tweets = client['twitter']['scrapedTweetsV2']
+    todoCol = client['twitter']['usersToScrape1YearV3']
     currentQuery = todoCol.find_one_and_delete({})
     while currentQuery != None:
         t0 = time.time()

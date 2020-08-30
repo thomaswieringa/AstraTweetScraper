@@ -14,7 +14,7 @@ def executequery(query, tweets):
     c.Since = datetime.datetime.utcfromtimestamp(query["startDate"]).strftime('%Y-%m-%d %H:%M:%S')
     c.Until = datetime.datetime.utcfromtimestamp(query["endDate"]).strftime('%Y-%m-%d %H:%M:%S')
     c.Pandas = True
-    c.Hide_output = True
+
 
     # Run
     twint.run.Search(c)

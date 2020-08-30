@@ -3,11 +3,12 @@ import time
 import datetime
 from pymongo import MongoClient
 import nltk
+
 nltk.download('stopwords')
 nltk.download('punkt')
 
 
-def executequery(query,tweets):
+def executequery(query, tweets):
     c = twint.Config()
     c.Username = query["user"]
     c.Since = datetime.datetime.utcfromtimestamp(query["startDate"]).strftime('%Y-%m-%d %H:%M:%S')
@@ -27,13 +28,11 @@ def executequery(query,tweets):
         date = row['date']
         pattern = '%Y-%m-%d %H:%M:%S'
         epoch = int(time.mktime(time.strptime(date, pattern)))
-        result.append( {"date": epoch,
-                  "tweet": tweet})
+        result.append({"date": epoch,
+                       "tweet": tweet})
 
     if result:
         tweets.insert_many(result)
-
-
 
 
 def main():
@@ -45,12 +44,13 @@ def main():
     currentQuery = todoCol.find_one_and_delete({})
     while currentQuery != None:
         t0 = time.time()
-        executequery(currentQuery, tweets)
+        try:
+            executequery(currentQuery, tweets)
+        except:
+            print('errored')
         t1 = time.time()
         print("User {} took {}".format(currentQuery["user"], t1 - t0))
         currentQuery = todoCol.find_one_and_delete({})
-
-
 
 
 if __name__ == '__main__':
